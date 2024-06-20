@@ -1,5 +1,7 @@
 import React, { Fragment, memo, useState } from 'react'
 import { useGetValue } from '../../../hooks/useGetValue'
+import ChangeFileImg from '../../../components/changeFileImg'
+import { useCreateProductsMutation } from '../../../context/api/productsApi'
 
 const initialState = {
     title: '',
@@ -14,10 +16,22 @@ const initialState = {
 const Create = () => {
     const { formData, handleChange } = useGetValue(initialState)
     const [files, setFiles] = useState('')
+    const [createProduct, { data, isLoading }] = useCreateProductsMutation()
 
     const handleCreateProduct = (e) => {
         e.preventDefault()
-        console.log(object);
+        let formProduct = new FormData()
+        formProduct.append('title', formData.title)
+        formProduct.append('price', formData.price)
+        formProduct.append('oldPrice', formData.oldPrice)
+        formProduct.append('catgory', formData.category)
+        formProduct.append('units', formData.units)
+        formProduct.append('description', formData.description)
+        formProduct.append('info', JSON.stringify([formData.info]))
+        Array.from(files).forEach(img => {
+            form.append('files', img, img.name)
+        })
+        createProduct(formProduct)
     }
 
     return (
@@ -34,9 +48,18 @@ const Create = () => {
                     type="text" name="category" placeholder="category" className='input input-info font-semibold bg-white' />
                 <input value={formData?.units} onChange={handleChange}
                     type="text" name="units" placeholder="units" className='input input-info font-semibold bg-white' />
-                <div>
-                    <input onChange={e => { setFiles(e.target.files) }} accept='image/*' type="file" name="file" />
+                <textarea value={formData?.description} onChange={handleChange}
+                    type="text" name="description" placeholder="description" className='input input-info font-semibold bg-white' ></textarea>
+                <textarea value={formData?.info} onChange={handleChange}
+                    type="text" name="info" placeholder="info" className='input input-info font-semibold bg-white' ></textarea>
+                <div className="grid grid-cols-4 gap-4 items-center justify-center">
+                    <ChangeFileImg files={files} />
                 </div>
+                <div>
+                    <input onChange={e => { setFiles(e.target.files) }} multiple accept='image/*' type="file" name="file" />
+                    <br />
+                </div>
+                <button disabled={isLoading} className="btn btn-info">Create</button>
             </form>
         </Fragment>
     )
