@@ -7,7 +7,7 @@ const initialState = {
     title: '',
     price: '',
     oldPrice: '',
-    catgory: '',
+    category: '',
     units: '',
     description: '',
     info: '',
@@ -29,9 +29,10 @@ const Create = () => {
         formProduct.append('description', formData.description)
         formProduct.append('info', JSON.stringify([formData.info]))
         Array.from(files).forEach(img => {
-            form.append('files', img, img.name)
+            formProduct.append('urls', img, img.name)
         })
         createProduct(formProduct)
+        console.log(data);
     }
 
     return (
@@ -44,7 +45,7 @@ const Create = () => {
                     type="number" name="price" placeholder="price" className='input input-info font-semibold bg-white' />
                 <input value={formData?.oldPrice} onChange={handleChange}
                     type="number" name="oldPrice" placeholder="oldPrice" className='input input-info font-semibold bg-white' />
-                <input value={formData?.catgory} onChange={handleChange}
+                <input value={formData?.category} onChange={handleChange}
                     type="text" name="category" placeholder="category" className='input input-info font-semibold bg-white' />
                 <input value={formData?.units} onChange={handleChange}
                     type="text" name="units" placeholder="units" className='input input-info font-semibold bg-white' />
