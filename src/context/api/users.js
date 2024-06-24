@@ -5,15 +5,15 @@ export const userApi = api.injectEndpoints({
     // Get request
     getUsers: build.query({
       query: (params) => ({
-        url: "/users/search",
+        url: "/users",
         params,
       }),
-      providesTags: ["User"],
+      providesTags: ["user"],
     }),
     // Login request
     loginUser: build.mutation({
       query: (body) => ({
-        url: "/auth/sign-in",
+        url: "",
         method: "POST",
         body,
       }),
@@ -22,7 +22,7 @@ export const userApi = api.injectEndpoints({
     // Post request
     createUser: build.mutation({
       query: (body) => ({
-        url: "/",
+        url: "/users",
         method: "POST",
         body,
       }),

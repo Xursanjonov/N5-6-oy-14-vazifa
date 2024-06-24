@@ -1,65 +1,57 @@
-import React, { Fragment, memo, useState } from 'react'
-import { useGetValue } from '../../../hooks/useGetValue'
-import ChangeFileImg from '../../../components/changeFileImg'
+import React, { Fragment, memo, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useCreateProductsMutation } from '../../../context/api/productsApi'
 
 const initialState = {
     title: '',
+    img: '',
     price: '',
-    oldPrice: '',
+    brand: '',
     category: '',
-    units: '',
-    description: '',
+    count: '',
     info: '',
 }
 
 const Create = () => {
-    const { formData, handleChange } = useGetValue(initialState)
-    const [files, setFiles] = useState('')
-    const [createProduct, { data, isLoading }] = useCreateProductsMutation()
+    const [formData, setFormData] = useState(initialState)
+    const [createProduct, { data, isLoading, isSuccess }] = useCreateProductsMutation()
+    const navigate = useNavigate()
 
     const handleCreateProduct = (e) => {
         e.preventDefault()
-        let formProduct = new FormData()
-        formProduct.append('title', formData.title)
-        formProduct.append('price', formData.price)
-        formProduct.append('oldPrice', formData.oldPrice)
-        formProduct.append('catgory', formData.category)
-        formProduct.append('units', formData.units)
-        formProduct.append('description', formData.description)
-        formProduct.append('info', JSON.stringify([formData.info]))
-        Array.from(files).forEach(img => {
-            formProduct.append('urls', img, img.name)
-        })
-        createProduct(formProduct)
-        console.log(data);
+        createProduct(formData)
     }
+
+    useEffect(() => {
+        if (isSuccess) {
+            navigate('/admin/manage')
+        }
+    }, [isSuccess])
+    console.log(data);
 
     return (
         <Fragment>
             <form onSubmit={handleCreateProduct} className='w-[600px] grid grid-cols-1 gap-3 font-semibold'>
                 <h2>Create Products</h2>
-                <input value={formData?.title} onChange={handleChange}
+                <input value={formData?.title} onChange={(e) => setFormData(p => ({ ...p, title: e.target.value }))}
                     autoFocus type="text" name="title" placeholder="title" className='input input-info font-semibold bg-white' />
-                <input value={formData?.price} onChange={handleChange}
+
+                <input value={formData?.price} onChange={(e) => setFormData(p => ({ ...p, price: e.target.value }))}
                     type="number" name="price" placeholder="price" className='input input-info font-semibold bg-white' />
-                <input value={formData?.oldPrice} onChange={handleChange}
-                    type="number" name="oldPrice" placeholder="oldPrice" className='input input-info font-semibold bg-white' />
-                <input value={formData?.category} onChange={handleChange}
+
+                <input value={formData?.category} onChange={(e) => setFormData(p => ({ ...p, category: e.target.value }))}
                     type="text" name="category" placeholder="category" className='input input-info font-semibold bg-white' />
-                <input value={formData?.units} onChange={handleChange}
-                    type="text" name="units" placeholder="units" className='input input-info font-semibold bg-white' />
-                <textarea value={formData?.description} onChange={handleChange}
-                    type="text" name="description" placeholder="description" className='input input-info font-semibold bg-white' ></textarea>
-                <textarea value={formData?.info} onChange={handleChange}
-                    type="text" name="info" placeholder="info" className='input input-info font-semibold bg-white' ></textarea>
-                <div className="grid grid-cols-4 gap-4 items-center justify-center">
-                    <ChangeFileImg files={files} />
-                </div>
-                <div>
-                    <input onChange={e => { setFiles(e.target.files) }} multiple accept='image/*' type="file" name="file" />
-                    <br />
-                </div>
+
+                <input value={formData?.brand} onChange={(e) => setFormData(p => ({ ...p, brand: e.target.value }))}
+                    type="text" name="brand" placeholder="brand" className='input input-info font-semibold bg-white' />
+                <input value={formData?.img} onChange={(e) => setFormData(p => ({ ...p, img: e.target.value }))}
+                    type="text" name="img" placeholder="image" className='input input-info font-semibold bg-white' />
+
+                <input value={formData?.info} onChange={(e) => setFormData(p => ({ ...p, info: e.target.value }))}
+                    type="text" name="info" placeholder="info" className='input input-info font-semibold bg-white' />
+
+                <input value={formData?.count} onChange={(e) => setFormData(p => ({ ...p, count: e.target.value }))}
+                    type="text" name="count" placeholder="Count" className='input input-info font-semibold bg-white' />
                 <button disabled={isLoading} className="btn btn-info">Create</button>
             </form>
         </Fragment>

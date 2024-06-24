@@ -4,20 +4,21 @@ import { useGetProductsQuery } from '../../context/api/productsApi';
 import emptyImg from '../../assets/images/empty-img.webp'
 
 const Home = () => {
-    const { data } = useGetProductsQuery({ limit: 100 })
-    const products = data?.data?.products;
-    console.log(products);
+    const { data } = useGetProductsQuery()
 
     return (
         <section>
-            <div className="prodicts mx-0 grid grid-cols-6 gap-5">
+            <div className="prodicts mx-0 grid grid-cols-4 gap-5">
                 {
-                    products?.map(product => (
-                        <div key={product.id} className='cart w-56 mx-auto flex flex-col items-center justify-center gap-3 border-2 rounded-lg'>
-                            <Link to={`/products/${product.id}`}>
-                                <img className='w-36 object-contain' src={product.urls[0] ? product?.urls[0] : emptyImg} alt={product?.title} />
+                    data?.map(product => (
+                        <div key={product?.id} className='cart w-[300px] h-[340px] mx-auto flex flex-col items-start justify-start gap-3 border-2 rounded-lg'>
+                            <Link to={`/products/${product?.id}`} className='w-[100%] h-[200px]'>
+                                <img className='w-[100%] h-[200px] object-cover rounded-t-md' src={product?.img ? product?.img : emptyImg} alt={product?.title} />
                             </Link>
-                            <p>{product?.title ? product?.title : 'Lorem ipsum dollor'}</p>
+                            <div className="px-2">
+                                <p>{product?.title ?? 'Lorem ipsum dollor'}</p>
+                                <p>{product?.category ?? 'Lorem ipsum dollor'}</p>
+                            </div>
                         </div>
                     ))
                 }
