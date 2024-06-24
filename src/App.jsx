@@ -10,6 +10,7 @@ import Auth from './pages/auth'
 import Admin from './pages/admin'
 import Create from './pages/admin/create/Create'
 import Manage from './pages/admin/manage/Manage'
+import ProductDetails from './pages/product-details'
 
 const App = () => {
 
@@ -20,6 +21,7 @@ const App = () => {
           <Route index element={<Home />} />
           <Route path='about' element={<About />} />
           <Route path='products' element={<Products />} />
+          <Route path='products/:id' element={<ProductDetails />} />
           <Route path='users' element={<Users />} />
           <Route path='login' element={<Login />} />
         </Route>

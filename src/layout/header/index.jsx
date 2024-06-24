@@ -19,8 +19,6 @@ const Header = () => {
                 <Link to={'/'} className='text-2xl font-bold'>Super Market</Link>
                 <div className='flex items-center justify-center gap-8'>
                     <Link to={`/`} >Home</Link>
-                    <Link to={`/about`} >About</Link>
-                    <Link to={`/products`} >Products</Link>
                     <Link to={`/users`} >Users</Link>
                 </div>
                 <button onClick={handleClicked} className='w-24 btn btn-info text-lg font-bold'>{token ? 'Admin' : 'Login'}</button>

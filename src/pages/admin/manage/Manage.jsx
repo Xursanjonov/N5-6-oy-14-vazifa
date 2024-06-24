@@ -8,7 +8,7 @@ const Manage = () => {
     const { data } = useGetProductsQuery()
     const [show, setShow] = useState(null)
     const [updateItem, { data: updateData }] = usePutProductsMutation()
-    
+
     const handleUpdate = (product) => {
         setShow(true)
         updateItem(product);
@@ -18,7 +18,7 @@ const Manage = () => {
         <div className="prodicts grid grid-cols-4 gap-5">
             {
                 data?.map(product => (
-                    <div key={product?.id} className='cart w-[350px] h-[360px] mx-auto flex flex-col items-start justify-start gap-3 border-2 rounded-lg'>
+                    <Link to={`/products/${product?.id}`} key={product?.id} className='cart w-[350px] h-[360px] mx-auto flex flex-col items-start justify-start gap-3 border-2 rounded-lg'>
                         <Link to={`/products/${product?.id}`} className='w-[100%] h-[200px]'>
                             <img className='w-[100%] h-[200px] object-cover rounded-t-md' src={product?.img ? product?.img : emptyImg} alt={product?.title} />
                         </Link>
@@ -33,7 +33,7 @@ const Manage = () => {
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </Link>
                 ))
             }
         </div >
